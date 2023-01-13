@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @Component
-public class SearchRepositoryImpl implements SearchRepository{
+public class SearchRepositoryImpl implements SearchRepository {
 
     @Autowired
     MongoClient client;
@@ -34,13 +34,13 @@ public class SearchRepositoryImpl implements SearchRepository{
 
         AggregateIterable<Document> result = collection.aggregate(Arrays.asList(new Document("$search",
                         new Document("text",
-                        new Document("query", text)
-                        .append("path", Arrays.asList("techs", "desc", "profile")))),
-                        new Document("$sort",
+                                new Document("query", text)
+                                        .append("path", Arrays.asList("techs", "desc", "profile")))),
+                new Document("$sort",
                         new Document("exp", 1L)),
-                        new Document("$limit", 5L)));
+                new Document("$limit", 5L)));
 
-        result.forEach(doc -> posts.add(converter.read(Post.class,doc)));
+        result.forEach(doc -> posts.add(converter.read(Post.class, doc)));
 
         return posts;
     }
